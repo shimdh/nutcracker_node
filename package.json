@@ -2,10 +2,11 @@
   "author": "Daniel Shim <shimdh@gmail.com>",
   "name": "node-nutcracker",
   "description": "Node.js client library for the nutcracker.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "compile": "coffee -o lib/ -c src/"
   },
   "engines": {
     "node": ">= 4.2.1"

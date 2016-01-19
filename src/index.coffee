@@ -1,6 +1,4 @@
 redis = require "redis"
-util = require "util"
-es = require "event-stream"
 net = require "net"
 default_port = 22121
 default_host = "127.0.0.1"
@@ -13,9 +11,9 @@ commands = ["keys", "migrate", "move", "object", "randomkey", "rename", "renamen
 
 on_info_cmd = (err, res) ->
   if err
-    return this.emit("error", new Error("Ready check failed: " + err.message))
+    this.emit("error", new Error("Ready check failed: " + err.message))
   else
-    return this.on_ready()
+    this.on_ready()
 
 exports.RedisClient = redis.RedisClient
 exports.createClient = (port_arg, host_arg, options) ->
@@ -25,22 +23,25 @@ exports.createClient = (port_arg, host_arg, options) ->
   redis_client = new redis.RedisClient(net_client, options)
   redis_client.port = port
   redis_client.host = host
+
   redis_client.on_info_cmd = on_info_cmd
   commands.forEach (cmd) ->
-    if cmd == "info"
+    if cmd is "info"
       fn = (array, callback) ->
         console.warn("nutcracker: cannot use " + cmd + " command");
         this.on_info_cmd()
-        return false
+        false
     else
       fn = (array, callback) ->
         if callback && (typeof callback == "function")
           err = new Error('nutcracker: cannot use ' + cmd + ' command')
           callback(err, null)
-        return false
-    return redis_client[cmd] = redis_client[cmd.toUpperCase()] = fn
-  return redis_client
+        false
+    redis_client[cmd] = redis_client[cmd.toUpperCase()] = fn
+  redis_client
 
 exports.print = redis.print
 exports.debug_mode = redis.debug_mode
 exports.Multi = redis.Multi
+
+
