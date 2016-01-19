@@ -1,6 +1,6 @@
-#     node-nutcracker
-#     (c) 2016-2016 Daniel Shim, JH, solilove, DocumentCloud and Investigative Reporters & Editors
-#     Underscore may be freely distributed under the MIT license.
+#   node-nutcracker
+#   (c) 2016-2016 Daniel Shim, JH, solilove, DocumentCloud and Investigative Reporters & Editors
+#   node-nutcracker may be freely distributed under the MIT license.
 redis = require "redis"
 net = require "net"
 util = require "util"
