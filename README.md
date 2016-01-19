@@ -9,14 +9,14 @@ Installation
 ---
 
 ```bash
-npm install nutcracker
+npm install node-nutcracker
 ```
 
 Usage
 ---
 
 ```coffeescript
-nutcracker = require "nutcracker"
+nutcracker = require "node-nutcracker"
 client = nutcracker.createClient(22121, "127.0.0.1")
 
 client.set("string key", "string val", nutcracker.print)
