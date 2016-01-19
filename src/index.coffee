@@ -1,4 +1,6 @@
 redis = require "redis"
+util = require "util"
+es = require "event-stream"
 net = require "net"
 default_port = 22121
 default_host = "127.0.0.1"
