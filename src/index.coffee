@@ -1,5 +1,7 @@
 redis = require "redis"
 net = require "net"
+util = require "util"
+es = require "event-stream"
 default_port = 22121
 default_host = "127.0.0.1"
 commands = ["keys", "migrate", "move", "object", "randomkey", "rename", "renamenx", "sort", "bitop", "mget", "mset",
@@ -8,6 +10,11 @@ commands = ["keys", "migrate", "move", "object", "randomkey", "rename", "renamen
   "script kill", "script load", "bgrewriteaof", "bgsave", "client kill", "client list", "config get", "config set",
   "config resetstat", "dbsize", "debug object", "debug segfault", "flushall", "flushdb", "info", "lastsave", "monitor",
   "save", "shutdown", "slaveof", "slowlog", "sync", "time"]
+
+formatString1 = '*%d\r\n'
+formatString2 = '$%d\r\n%s\r\n'
+replace1 = /^\$[0-9]+/
+replace2 = /^\*[0-9]+|^\:|^\+|^\$|^\r\n$/
 
 on_info_cmd = (err, res) ->
   if err
@@ -45,3 +52,57 @@ exports.debug_mode = redis.debug_mode
 exports.Multi = redis.Multi
 
 
+class Redis
+  constructor: (@port = 6379, @host = 'localhost', @db = String(db or 0)) ->
+    @
+
+  @es: es
+
+  createConnection: ->
+    net.createConnection @port, @host
+
+  stream: (cmd, key, curry) ->
+    curry = Array.prototype.slice.call(arguments)
+    clip = 1
+    _redis = @createConnection()
+
+    replyParser = (data, fn) ->
+      str = (data+'').replace(replace1, '').replace(replace2, '')
+      if Redis.debug_mode then console.log('replyParser', data+'')
+      if not str.length
+        fn()
+      else if clip
+        clip--
+      else
+        fn null, str
+
+    stream = es.pipe(
+      es.pipe(
+        es.map((data, fn) ->
+          elems = [].concat(stream.curry)
+          str = data+''
+          if not str.length then fn() else elems.push str
+          Redis.parse elems, fn
+        ),
+        _redis
+      ),
+      es.pipe(
+        es.split('\r\n'),
+        es.map(replyParser)
+      )
+    )
+    stream.curry = curry
+    stream.redis = _redis
+    stream.redis.write Redis.parse([ 'select', this.db ])
+    stream
+
+  @parse: (elems, fn) ->
+    retval = util.format formatString1, elems.length
+    while elems.length
+      retval += util.format(formatString2, Buffer.byteLength(elems[0]+''), elems.shift()+'')
+    if Redis.debug_mode then console.log('commandParser', retval)
+    fn and fn(null, retval)
+    retval
+
+
+module.exports.Redis = Redis
