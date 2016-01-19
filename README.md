@@ -15,13 +15,11 @@ npm install node-nutcracker
 Usage
 ---
 
-```coffeescript
-nutcracker = require "node-nutcracker"
-client = nutcracker.createClient(22121, "127.0.0.1")
+```js
+var nutcracker = require("node-nutcracker");
+var client = nutcracker.createClient(22121, "127.0.0.1");
 
-client.set("string key", "string val", nutcracker.print)
-client.keys("*", nutcracker.print)
-# => Error: Error: nutcracker: cannot use keys command
-# => false
+client.set("string key", "string val", nutcracker.print);
+client.keys("*", nutcracker.print);
 
 ```
