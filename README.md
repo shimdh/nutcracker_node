@@ -5,6 +5,8 @@ nutcracker has a limitation on available commands (e.g., "info", "keys" and [mor
 
 So you cannot use [node_redis](https://github.com/mranney/node_redis) as it is. This module wraps these unavailable commands, and if these commands were called, return warning message and errors.
 
+Now it was added redis stream for using twemproxy.
+
 Installation
 ---
 
@@ -15,11 +17,13 @@ npm install node-nutcracker
 Usage
 ---
 
-```js
+```javascript
 var nutcracker = require("node-nutcracker");
 var client = nutcracker.createClient(22121, "127.0.0.1");
 
 client.set("string key", "string val", nutcracker.print);
 client.keys("*", nutcracker.print);
+
+var redisStream = nutcracker.Redis;
 
 ```
