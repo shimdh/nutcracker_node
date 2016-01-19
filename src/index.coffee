@@ -53,7 +53,7 @@ exports.Multi = redis.Multi
 
 
 class Redis
-  constructor: (@port = 6379, @host = 'localhost', @db = String(db or 0)) ->
+  constructor: (@port = 6379, @host = 'localhost') ->
     @
 
   @es: es
@@ -93,7 +93,6 @@ class Redis
     )
     stream.curry = curry
     stream.redis = _redis
-    stream.redis.write Redis.parse([ 'select', this.db ])
     stream
 
   @parse: (elems, fn) ->
