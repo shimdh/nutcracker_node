@@ -2,7 +2,7 @@
   "author": "Daniel Shim <shimdh@gmail.com>",
   "name": "node-nutcracker",
   "description": "Node.js client library for the nutcracker.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha"

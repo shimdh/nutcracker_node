@@ -3,3 +3,4 @@ fixtures
 test
 npm-debug.log
 test/spec_helper.coffee
+.idea

@@ -2,7 +2,12 @@ redis = require "redis"
 net = require "net"
 default_port = 22121
 default_host = "127.0.0.1"
-commands = ["keys", "migrate", "move", "object", "randomkey", "rename", "renamenx", "sort", "bitop", "mget", "mset", "blpop", "brpop", "brpoplpush", "psubscribe", "publish", "punsubscribe", "subscribe", "unsubscribe", "discard", "exec", "multi", "unwatch", "watch", "auth", "echo", "ping", "quit", "select", "script exists", "script flush", "script kill", "script load", "bgrewriteaof", "bgsave", "client kill", "client list", "config get", "config set", "config resetstat", "dbsize", "debug object", "debug segfault", "flushall", "flushdb", "info", "lastsave", "monitor", "save", "shutdown", "slaveof", "slowlog", "sync", "time"]
+commands = ["keys", "migrate", "move", "object", "randomkey", "rename", "renamenx", "sort", "bitop", "mget", "mset",
+  "blpop", "brpop", "brpoplpush", "psubscribe", "publish", "punsubscribe", "subscribe", "unsubscribe", "discard",
+  "exec", "multi", "unwatch", "watch", "auth", "echo", "ping", "quit", "select", "script exists", "script flush",
+  "script kill", "script load", "bgrewriteaof", "bgsave", "client kill", "client list", "config get", "config set",
+  "config resetstat", "dbsize", "debug object", "debug segfault", "flushall", "flushdb", "info", "lastsave", "monitor",
+  "save", "shutdown", "slaveof", "slowlog", "sync", "time"]
 
 on_info_cmd = (err, res) ->
   if err
