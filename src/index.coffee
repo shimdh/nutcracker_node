@@ -63,7 +63,6 @@ class Redis
 
   stream: (cmd, key, curry) ->
     curry = Array.prototype.slice.call(arguments)
-    clip = 1
     _redis = @createConnection()
 
     replyParser = (data, fn) ->
@@ -71,8 +70,6 @@ class Redis
       if Redis.debug_mode then console.log('replyParser', data+'')
       if not str.length
         fn()
-      else if clip
-        clip--
       else
         fn null, str
 
