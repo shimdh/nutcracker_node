@@ -5,3 +5,4 @@ lib
 *.o
 *.node
 node_modules
+.idea

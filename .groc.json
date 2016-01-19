@@ -1,5 +1,5 @@
 {
   "glob": ["src/*.coffee", "README.md"],
   "github": true,
-  "repository-url": "https://github.com/t-k/gmo-payment-node"
+  "repository-url": "https://github.com/shimdh/nutcracker_node.git"
 }
