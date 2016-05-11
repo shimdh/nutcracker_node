@@ -68,7 +68,7 @@ class Redis
     curry = Array.prototype.slice.call(arguments)
     _redis = @createConnection()
 
-    replyParser = (data, fn) ->
+    replyParser = (data, fn) =>
       str = (data+'').replace(replace1, '').replace(replace2, '')
       if Redis.debug_mode then console.log('replyParser', data+'')
       if not str.length
