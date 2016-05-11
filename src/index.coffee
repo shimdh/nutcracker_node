@@ -74,6 +74,7 @@ class Redis
       if not str.length
         fn()
       else
+        return fn() if @pw?
         fn null, str
 
     stream = es.pipe(
