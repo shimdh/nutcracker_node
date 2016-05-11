@@ -38,7 +38,7 @@ exports.createClient = (port_arg, host_arg, options) ->
   commands.forEach (cmd) ->
     if cmd is "info"
       fn = (array, callback) ->
-        console.warn("nutcracker: cannot use " + cmd + " command");
+        console.warn("nutcracker: cannot use " + cmd + " command")
         this.on_info_cmd()
         false
     else
@@ -56,7 +56,7 @@ exports.Multi = redis.Multi
 
 
 class Redis
-  constructor: (@port = 6379, @host = 'localhost') ->
+  constructor: (@port = 6379, @host = 'localhost', @pw = null) ->
     @
 
   @es: es
@@ -93,6 +93,7 @@ class Redis
     )
     stream.curry = curry
     stream.redis = _redis
+    if @pw? then stream.redis.write(Redis.parse(['auth', @pw]))
     stream
 
   @parse: (elems, fn) ->
